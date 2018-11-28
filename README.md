@@ -15,6 +15,13 @@ Parallex.new()
 |> Parallex.execute()
 ```
 
+You can short circuit execution by returning a `{:halt, any}` tuple in any operation.  Note that parallelized
+batches can't be short circuited.
+
+Additionally, the library runs on a protocol `Parallex.Executable`.  If you want to implement your own orchestration
+primitive, like `Parallex.Batch` or `Parallex.Sequene`, simply write an implementation of the protocol, and return either
+a map or a `Parallex.Result` (if you want to support halting).
+
 ## Installation
 
 ```elixir
