@@ -1,4 +1,4 @@
-defmodule Parallex.Sequence do
+defmodule Parallax.Sequence do
   @moduledoc """
   Representation of a sequence of tasks, each of which could contain a set of parallel tasks
   """
@@ -18,12 +18,12 @@ defmodule Parallex.Sequence do
   @doc """
   Appends an operation to the sequence
   """
-  @spec append(t, Parallex.executable) :: t
+  @spec append(t, Parallax.executable) :: t
   def append(%__MODULE__{sequence: sequence} = seq, operation), do: %{seq | sequence: [operation | sequence]}
 
   @doc """
   Replaces the head of the sequence with the given op
   """
-  @spec amend(t, Parallex.executable) :: t
+  @spec amend(t, Parallax.executable) :: t
   def amend(%__MODULE__{sequence: [_ | t]} = seq, new_head), do: %{seq | sequence: [new_head | t]}
 end

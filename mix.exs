@@ -1,11 +1,11 @@
-defmodule Parallex.MixProject do
+defmodule Parallax.MixProject do
   use Mix.Project
 
   @version "0.2.0"
 
   def project do
     [
-      app: :parallex,
+      app: :parallax,
       version: @version,
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
@@ -23,7 +23,9 @@ defmodule Parallex.MixProject do
   end
 
   defp deps do
-    []
+    [
+      {:ex_doc, ">= 0.0.0", only: :dev}
+    ]
   end
 
   defp description do
@@ -36,7 +38,7 @@ defmodule Parallex.MixProject do
     [
       licenses: ["MIT"],
       maintainers: ["Michael Guarino"],
-      links: %{"GitHub" => "https://github.com/Frameio/herd"}
+      links: %{"GitHub" => "https://github.com/Frameio/parallax"}
     ]
   end
 end

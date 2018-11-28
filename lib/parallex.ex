@@ -1,16 +1,16 @@
-defmodule Parallex do
+defmodule Parallax do
   @moduledoc """
   Simple module for orchestrating parallel tasks.  There are three main options:
 
   * `sync/3` - appends a task to be executed synchronously
   * `parallel/3` - adds the task to be executed in parallel within the current batch
-  * `nest/3` - nests an existing Parallex.Executable within the current batch
+  * `nest/3` - nests an existing Parallax.Executable within the current batch
 
-  To execute the operation, simply call `Parallex.execute/1`
+  To execute the operation, simply call `Parallax.execute/1`
 
   All require a unique name so the result can be addressed after execution
   """
-  alias Parallex.{Sequence, Batch, Executor}
+  alias Parallax.{Sequence, Batch, Executor}
 
   @type executable :: Batch.t | Sequence.t | (map -> any)
 

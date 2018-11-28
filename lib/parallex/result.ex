@@ -1,4 +1,4 @@
-defmodule Parallex.Result do
+defmodule Parallax.Result do
   @moduledoc """
   Parallel result return type
   """

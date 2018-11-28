@@ -1,3 +1,3 @@
-defmodule Parallex.Error do
+defmodule Parallax.Error do
   defstruct [:reason]
 end
