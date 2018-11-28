@@ -38,6 +38,13 @@ defmodule ParallexTest do
     assert Parallex.execute(sequence)[:end]
   end
 
+  test "It can short circuit an operation" do
+    assert Parallex.new()
+           |> Parallex.sync(:short, fn _ -> {:halt, 1} end)
+           |> Parallex.sync(:next, fn _ -> 1 end)
+           |> Parallex.execute() == %{short: 1}
+  end
+
   defp build_parallel_operation(ops) do
     ops
     |> Enum.reduce(Parallex.new(), &Parallex.parallel(&2, &1, fn _ -> 1 end))
