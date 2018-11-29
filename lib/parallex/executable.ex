@@ -10,7 +10,12 @@ defimpl Parallax.Executable, for: Function do
   @doc """
   Just execute the function with `args`
   """
-  def execute(fun, args), do: fun.(args)
+  def execute(fun, args) do
+    case :erlang.fun_info(fun, :arity) do
+      {:arity, 1} -> fun.(args)
+      {:arity, 0} -> fun.()
+    end
+  end
 end
 
 defimpl Parallax.Executable, for: Parallax.Batch do
