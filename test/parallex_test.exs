@@ -45,6 +45,13 @@ defmodule ParallaxTest do
            |> Parallax.execute() == %{short: 1}
   end
 
+  test "It can pass along args within a sequence" do
+    assert Parallax.new(%{arg: 1})
+           |> Parallax.parallel(:first, fn %{arg: 1} -> 1 end)
+           |> Parallax.sync(:second, fn %{arg: 1} -> 1 end)
+           |> Parallax.execute() == %{first: 1, second: 1}
+  end
+
   defp build_parallel_operation(ops) do
     ops
     |> Enum.reduce(Parallax.new(), &Parallax.parallel(&2, &1, fn _ -> 1 end))

@@ -50,10 +50,11 @@ defimpl Parallax.Executable, for: Parallax.Sequence do
   it should really only contain higher level orchestrators like a `Parallax.Batch.t` or
   another sequence
   """
-  def execute(%{sequence: sequence}, args) do
+  def execute(%{sequence: sequence, args: seq_args}, args) do
     sequence
     |> Enum.reverse()
-    |> maybe_halt(args)
+    |> maybe_halt(Map.merge(seq_args, args))
+    |> Map.drop(Map.keys(seq_args))
   end
 
   defp maybe_halt([], args), do: args

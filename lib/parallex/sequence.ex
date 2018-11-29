@@ -6,7 +6,8 @@ defmodule Parallax.Sequence do
   @type t :: %__MODULE__{}
   defstruct [
     sequence: [],
-    opts: []
+    opts: [],
+    args: %{}
   ]
 
   @doc """

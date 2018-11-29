@@ -27,7 +27,7 @@ a map or a `Parallax.Result` (if you want to support halting).
 ```elixir
 def deps do
   [
-    {:parallax, "~> 0.3.0"}
+    {:parallax, "~> 0.4.0"}
   ]
 end
 ```

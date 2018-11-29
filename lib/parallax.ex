@@ -17,7 +17,7 @@ defmodule Parallax do
   @doc """
   Creates a new sequence with the given opts to pass along
   """
-  def new(opts \\ []), do: %Sequence{opts: opts}
+  def new(args \\ %{}, opts \\ []), do: %Sequence{args: args, opts: opts}
 
   @doc  """
   Appends a new batch to the sequence, and adds the given operation to it.  Sequence ops are
