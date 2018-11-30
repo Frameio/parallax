@@ -24,13 +24,7 @@ defimpl Parallax.Executable, for: Parallax.Batch do
   """
   def execute(%{operations: operations, opts: opts}, args) do
     operations
-    |> Task.async_stream(fn {name, operation} ->
-      {name, Parallax.Executable.execute(operation, args)}
-    end, parallel_opts(opts, operations))
-    |> Enum.map(fn
-      {:ok, res} -> res
-      {:exit, reason} -> %Parallax.Error{reason: reason}
-    end)
+    |> Parallax.Parallelizer.parallelize(&Parallax.Executable.execute(&1, args), parallel_opts(opts, operations))
     |> Parallax.Result.new()
   end
 
