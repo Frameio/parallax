@@ -1,4 +1,7 @@
 defmodule Parallax.Parallelizer do
+  @moduledoc """
+  Handles executing a function against an enumerable with defined concurrency limits
+  """
 
   def parallelize(enumerable, fun, opts \\ []) do
     enumerable

@@ -8,10 +8,12 @@ The api should look something like
 
 ```elixir
 Parallax.new()
-|> Parallax.parallel(:first, &first_func/1)
-|> Parallax.parallel(:second, &second_func/1)
-|> Parallax.nest(:nested, additional_sequence)
-|> Parallax.sync(:cleanup, fn %{first: f, second: s, nested: nested} -> cleanup(f, s, nested) end)
+|> Parallax.operation(:first, &first_func/1)
+|> Parallax.operation(:second, &second_func/1)
+|> Parallax.operation(:nested, additional_sequence)
+|> Parallax.operation(:cleanup, fn f, s, nested -> 
+  cleanup(f, s, nested) 
+end, requires: [:first, :second, :nested])
 |> Parallax.execute()
 ```
 
