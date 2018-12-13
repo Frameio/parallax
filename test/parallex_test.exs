@@ -39,21 +39,34 @@ defmodule ParallaxTest do
   end
 
   test "It can short circuit an operation" do
-    assert Parallax.new()
+    assert Parallax.sequence()
            |> Parallax.sync(:short, fn _ -> {:halt, 1} end)
            |> Parallax.sync(:next, fn _ -> 1 end)
            |> Parallax.execute() == %{short: 1}
   end
 
   test "It can pass along args within a sequence" do
-    assert Parallax.new(%{arg: 1})
+    assert Parallax.sequence(%{arg: 1})
            |> Parallax.parallel(:first, fn %{arg: 1} -> 1 end)
            |> Parallax.sync(:second, fn %{arg: 1} -> 1 end)
            |> Parallax.execute() == %{first: 1, second: 1}
   end
 
+  test "It can handle graph operations" do
+    result =
+      Parallax.new()
+      |> Parallax.operation(:first, fn -> 1 end)
+      |> Parallax.operation(:second, fn -> 2 end)
+      |> Parallax.operation(:third, fn first -> first + 1 end, requires: :first)
+      |> Parallax.operation(:fourth, fn second, third -> second + third end, requires: [:second, :third])
+      |> Parallax.operation(:fifth, fn first, third, fourth -> first + third + fourth end, requires: [:first, :third, :fourth])
+      |> Parallax.execute()
+
+    assert result == %{first: 1, second: 2, third: 2, fourth: 4, fifth: 7}
+  end
+
   defp build_parallel_operation(ops) do
     ops
-    |> Enum.reduce(Parallax.new(), &Parallax.parallel(&2, &1, fn _ -> 1 end))
+    |> Enum.reduce(Parallax.sequence(), &Parallax.parallel(&2, &1, fn _ -> 1 end))
   end
 end

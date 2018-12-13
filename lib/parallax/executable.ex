@@ -18,6 +18,14 @@ defimpl Parallax.Executable, for: Function do
   end
 end
 
+defimpl Parallax.Executable, for: Tuple do
+  @doc """
+  Accepts a tuple like `{fun, requirements}` and calls the function
+  with the requirements mapped to the functions positional arguments
+  """
+  def execute({fun, requirements}, args), do: apply(fun, Enum.map(requirements, &Map.get(args, &1)))
+end
+
 defimpl Parallax.Executable, for: Parallax.Batch do
   @doc """
   Parallelizes the given set of ops by passing `args` to each and returns a map of names to results
@@ -58,5 +66,15 @@ defimpl Parallax.Executable, for: Parallax.Sequence do
       %Parallax.Result{results: results} -> maybe_halt(rest, Map.merge(args, results))
       map when is_map(map) -> maybe_halt(rest, Map.merge(args, map))
     end
+  end
+end
+
+defimpl Parallax.Executable, for: Parallax.Graph do
+  @doc """
+  Compiles the graph into a `Parallax.Sequence.t` and executes it
+  """
+  def execute(graph, args) do
+    Parallax.Graph.compile(graph)
+    |> Parallax.Executable.execute(args)
   end
 end
